@@ -1,49 +1,32 @@
-const up = document.getElementById("header");
+    const idChara = sessionStorage.getItem("idChara")
+    const nameChara =sessionStorage.getItem("nameChara")
+    const descriptionChara = sessionStorage.getItem("descriptionChara")
+    const shortDesChara = sessionStorage.getItem("shortDesChara")
+    const imgChara = sessionStorage.getItem("imgChara")
 
-const titre = document.createElement("h1");
-titre.innerHTML = "CHARACTERS MANAGER";
-up.appendChild(titre);
-
-const separator = document.getElementById("separator");
-const divider = document.createElement("hr");
-divider.setAttribute("class", "solid");
-separator.appendChild(divider);
-
-
-    let idchara = sessionStorage.getItem("idchara")
-    let namechara =sessionStorage.getItem("namechara")
-    let descriptionchara = sessionStorage.getItem("descriptionchara")
-    let shortdeschara = sessionStorage.getItem("shortdeschara")
-    let imgchara = sessionStorage.getItem("imgchara")
-    console.log(idchara);
-    console.log(namechara);
-    console.log(descriptionchara);
-    console.log(shortdeschara);
-    console.log(imgchara);
-
-    document.getElementById("name").innerHTML = namechara;
-    document.getElementById("shortDescription").innerHTML = shortdeschara;
-    document.getElementById("editor").innerHTML = descriptionchara;
+    document.getElementById("name").innerHTML = nameChara;
+    document.getElementById("shortDescription").innerHTML = shortDesChara;
+    document.getElementById("editor").innerHTML = descriptionChara;
     
 
 
-var // where files are dropped + file selector is opened
+const // where files are dropped + file selector is opened
 	dropRegion = document.getElementById("drop-region"),
 	// where images are previewed
 	imagePreviewRegion = document.getElementById("image-preview");
 
 
 // open file selector when clicked on the drop region
-var fakeInput = document.createElement("input");
+const fakeInput = document.createElement("input");
 fakeInput.type = "file";
 fakeInput.accept = "image/*";
 fakeInput.multiple = true;
-dropRegion.addEventListener('click', function() {
+dropRegion.addEventListener('click', () => {
 	fakeInput.click();
 });
 
 
-fakeInput.addEventListener("change", function() {
+fakeInput.addEventListener("change", () => {
 	var files = fakeInput.files;
 	handleFiles(files);
 });
@@ -51,7 +34,7 @@ fakeInput.addEventListener("change", function() {
 
 function preventDefault(e) {
 	e.preventDefault();
-  	e.stopPropagation();
+  e.stopPropagation();
 }
 
 dropRegion.addEventListener('dragenter', preventDefault, false)
@@ -61,7 +44,7 @@ dropRegion.addEventListener('drop', preventDefault, false)
 
 
 function handleDrop(e) {
-	var dt = e.dataTransfer,
+	const dt = e.dataTransfer,
 		files = dt.files;
 
 	if (files.length) {
@@ -71,7 +54,7 @@ function handleDrop(e) {
 	} else {
 
 		// check for img
-		var html = dt.getData('text/html'),
+		const html = dt.getData('text/html'),
 	        match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
 	        url = match && match[1];
 
@@ -86,9 +69,9 @@ function handleDrop(e) {
 
 
 	function uploadImageFromURL(url) {
-		var img = new Image;
-        var c = document.createElement("canvas");
-        var ctx = c.getContext("2d");
+		let img = new Image;
+        let c = document.createElement("canvas");
+        let ctx = c.getContext("2d");
 
         img.onload = function() {
             c.width = this.naturalWidth;     // update canvas size to match image
@@ -101,7 +84,7 @@ function handleDrop(e) {
 
             }, "image/png");
         };
-        img.onerror = function() {
+        img.onerror = () => {
             alert("Error in uploading");
         }
         img.crossOrigin = "";              // if from different origin
@@ -115,7 +98,7 @@ dropRegion.addEventListener('drop', handleDrop, false);
 
 
 function handleFiles(files) {
-	for (var i = 0, len = files.length; i < len; i++) {
+	for (let i = 0, len = files.length; i < len; i++) {
 		if (validateImage(files[i]))
 			previewImage(files[i]);
 	}
@@ -123,14 +106,14 @@ function handleFiles(files) {
 
 function validateImage(image) {
 	// check the type
-	var validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+	const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
 	if (validTypes.indexOf( image.type ) === -1) {
 		alert("Invalid File Type");
 		return false;
 	}
 
 	// check the size
-	var maxSizeInBytes = 10e6; // 10MB
+  let maxSizeInBytes = 10e6; // 10MB
 	if (image.size > maxSizeInBytes) {
 		alert("File too large");
 		return false;
@@ -141,27 +124,25 @@ function validateImage(image) {
 }
 
 // container
-var imgView = document.createElement("div");
+const imgView = document.createElement("div");
 imgView.className = "image-view";
 imagePreviewRegion.appendChild(imgView);
 
 // previewing image
-var img = document.createElement("img");
+const img = document.createElement("img");
 img.setAttribute("id","prevmage");
 img.className="rounded";
 imgView.appendChild(img);
-img.src = imgchara;
+img.src = imgChara;
 
 function previewImage(image) {
 	// read the image...
-	var reader = new FileReader();
+	const reader = new FileReader();
 	reader.onload = function(e) {
 		img.src = e.target.result;
   };
 	reader.readAsDataURL(image);
 }
-
-
 
 
 const buttonSolo = document.createElement("div");
@@ -185,13 +166,10 @@ updateButton.addEventListener("click",async() =>{
       }
   
       let [name, shortDescription] = values;
-      console.log(values);
       let image = prevMage.src;
       image = image.substr(22);
-      console.log(image);
-      let id = idchara;
+      let id = idChara;
       let description = document.getElementById("editor").innerHTML;
-      console.log (description);
  
   
       const postData = await fetch("https://character-database.becode.xyz/characters/"+id, {
@@ -201,8 +179,7 @@ updateButton.addEventListener("click",async() =>{
         },
         body: JSON.stringify({ name, shortDescription, description, image }),
       });
-      console.log(postData);
-      console.log(postData.json());
+      
       window.location.href="index.html"
     });
   
@@ -214,15 +191,15 @@ deleteButton.setAttribute("id", "deleteButton");
 deleteButton.innerText = "Delete character";
 buttonSolo.appendChild(deleteButton);
 deleteButton.addEventListener("click", () => {
-  window.location.href="index.html"
+ back();
             });
 
 
 const backButton = document.createElement("button");
 backButton.setAttribute("id", "backButton");
 backButton.innerText = "<Back";
-backButton.addEventListener("click", function () {
-            window.location.href="index.html"
+backButton.addEventListener("click", () => {
+ back();
             })
 cardSolo.appendChild(backButton);          
 
@@ -234,10 +211,6 @@ document
   )
 );
 
-
-
-
-
-
-
- 
+async function back() {
+    window.location.href="index.html"
+  } 

@@ -123,8 +123,6 @@ img.rounded {
 
   @media only screen and (max-width: 1200px) {
     img.rounded {
-      object-fit: cover;
-      border-radius: 50%;
       height: 70px;
       width: 70px;
     }

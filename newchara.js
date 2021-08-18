@@ -1,23 +1,11 @@
-const up = document.getElementById("header");
-
-const titre = document.createElement("h1");
-titre.innerHTML = "CHARACTERS MANAGER";
-up.appendChild(titre);
-
-const separator = document.getElementById("separator");
-const divider = document.createElement("hr");
-divider.setAttribute("class", "solid");
-separator.appendChild(divider);
-
-
-var // where files are dropped + file selector is opened
+const // where files are dropped + file selector is opened
 	dropRegion = document.getElementById("drop-region"),
 	// where images are previewed
 	imagePreviewRegion = document.getElementById("image-preview");
 
 
 // open file selector when clicked on the drop region
-var fakeInput = document.createElement("input");
+const fakeInput = document.createElement("input");
 fakeInput.type = "file";
 fakeInput.accept = "image/*";
 fakeInput.multiple = true;
@@ -27,7 +15,7 @@ dropRegion.addEventListener('click', function() {
 
 
 fakeInput.addEventListener("change", function() {
-	var files = fakeInput.files;
+	let files = fakeInput.files;
 	handleFiles(files);
 });
 
@@ -44,7 +32,7 @@ dropRegion.addEventListener('drop', preventDefault, false)
 
 
 function handleDrop(e) {
-	var dt = e.dataTransfer,
+	const dt = e.dataTransfer,
 		files = dt.files;
 
 	if (files.length) {
@@ -54,7 +42,7 @@ function handleDrop(e) {
 	} else {
 
 		// check for img
-		var html = dt.getData('text/html'),
+		const html = dt.getData('text/html'),
 	        match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
 	        url = match && match[1];
 
@@ -69,9 +57,9 @@ function handleDrop(e) {
 
 
 	function uploadImageFromURL(url) {
-		var img = new Image;
-        var c = document.createElement("canvas");
-        var ctx = c.getContext("2d");
+		let img = new Image;
+        let c = document.createElement("canvas");
+        let ctx = c.getContext("2d");
 
         img.onload = function() {
             c.width = this.naturalWidth;     // update canvas size to match image
@@ -98,7 +86,7 @@ dropRegion.addEventListener('drop', handleDrop, false);
 
 
 function handleFiles(files) {
-	for (var i = 0, len = files.length; i < len; i++) {
+	for (let i = 0, len = files.length; i < len; i++) {
 		if (validateImage(files[i]))
 			previewImage(files[i]);
 	}
@@ -106,14 +94,14 @@ function handleFiles(files) {
 
 function validateImage(image) {
 	// check the type
-	var validTypes = ['image/jpeg', 'image/png', 'image/gif'];
+	const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
 	if (validTypes.indexOf( image.type ) === -1) {
 		alert("Invalid File Type");
 		return false;
 	}
 
 	// check the size
-	var maxSizeInBytes = 10e6; // 10MB
+	let maxSizeInBytes = 10e6; // 10MB
 	if (image.size > maxSizeInBytes) {
 		alert("File too large");
 		return false;
@@ -127,19 +115,19 @@ function validateImage(image) {
 function previewImage(image) {
 
 	// container
-	var imgView = document.createElement("div");
+	let imgView = document.createElement("div");
 	imgView.className = "image-view";
 	imagePreviewRegion.appendChild(imgView);
 
 	// previewing image
-	var img = document.createElement("img");
+	let img = document.createElement("img");
     img.setAttribute("id","prevmage");
     img.className="rounded";
 	imgView.appendChild(img);
 
 
 	// read the image...
-	var reader = new FileReader();
+	let reader = new FileReader();
 	reader.onload = function(e) {
 		img.src = e.target.result;
   };
@@ -157,8 +145,8 @@ updateButton.setAttribute("id", "updateButton");
 updateButton.setAttribute("type", "submit");
 updateButton.setAttribute("value", "Save New Character");;
 buttonSolo.appendChild(updateButton);
-updateButton.addEventListener("click",async() =>{
-    const prevMage = document.getElementById("prevmage");
+updateButton.addEventListener("click", async() =>{
+    let prevMage = document.getElementById("prevmage");
     let text = Array.from(document.querySelectorAll("textarea"));
     let values = text.map(({value})=>{
         return value.trim();
@@ -169,12 +157,9 @@ updateButton.addEventListener("click",async() =>{
       }
   
       let [name, shortDescription] = values;
-      console.log(values);
       let image = prevMage.src;
       image = image.substr(22);
       let description = document.getElementById("editor").innerHTML;
-      console.log (description);
-      console.log(image);
       let id = null;
  
   
@@ -185,8 +170,6 @@ updateButton.addEventListener("click",async() =>{
         },
         body: JSON.stringify({ id, name, shortDescription, description, image }),
       });
-      console.log(postData);
-      console.log(postData.json());
       window.location.href="index.html"
     });
   
@@ -205,7 +188,7 @@ deleteButton.addEventListener("click", () => {
 const backButton = document.createElement("button");
 backButton.setAttribute("id", "backButton");
 backButton.innerText = "<Back";
-backButton.addEventListener("click", function () {
+backButton.addEventListener("click", () => {
             window.location.href="index.html"
             })
 cardSolo.appendChild(backButton);      
@@ -216,8 +199,3 @@ document
     editor.addEventListener('input', e => console.log(e.target.innerHTML)
   )
 );
-
-
-
-
- 
