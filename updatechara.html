@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>UPDATE CHARACTER</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
+    <link href="index.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+    crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div id="header"></div>
+    <div id="separator"></div>
+
+    <div id="root">
+      <div class="container">
+        <div id="cardSolo">
+          <div id="drop-region">
+            <div class="drop-message">Preview</div>
+            <div id="image-preview"></div>
+          </div>
+            <textarea rows = "1" cols = "60" name="name" id="name">CHARACTER NAME
+            </textarea>
+
+            <textarea rows = "2" cols = "60" name="shortDescription" id="shortDescription">SHORT DESCRIPTION
+            </textarea>
+
+            <div data-tiny-editor data-formatblock="no" data-fontname="no" data-remove-format="no"  data-indent="no" data-outdent="no" id="editor" >
+             
+     </div>
+  
+
+        </div>
+      </div>
+    </div>
+
+    <div id="bottom"></div>
+    <script src="upchara.js"></script>
+    <script src="https://unpkg.com/tiny-editor/dist/bundle.js"></script>
+  </body>
+</html>
