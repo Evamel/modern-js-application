@@ -1,3 +1,5 @@
+import { handleDrop } from './handleDrop.js';
+
 const // where files are dropped + file selector is opened
 	dropRegion = document.getElementById("drop-region"),
 	// where images are previewed
@@ -31,55 +33,6 @@ dropRegion.addEventListener('dragover', preventDefault, false)
 dropRegion.addEventListener('drop', preventDefault, false)
 
 
-function handleDrop(e) {
-	const dt = e.dataTransfer,
-		files = dt.files;
-
-	if (files.length) {
-
-		handleFiles(files);
-		
-	} else {
-
-		// check for img
-		const html = dt.getData('text/html'),
-	        match = html && /\bsrc="?([^"\s]+)"?\s*/.exec(html),
-	        url = match && match[1];
-
-
-
-	    if (url) {
-	        uploadImageFromURL(url);
-	        return;
-	    }
-
-	}
-
-
-	function uploadImageFromURL(url) {
-		let img = new Image;
-        let c = document.createElement("canvas");
-        let ctx = c.getContext("2d");
-
-        img.onload = function() {
-            c.width = this.naturalWidth;     // update canvas size to match image
-            c.height = this.naturalHeight;
-            ctx.drawImage(this, 0, 0);       // draw in image
-            c.toBlob(function(blob) {        // get content as PNG blob
-
-            	// call our main function
-                handleFiles( [blob] );
-
-            }, "image/png");
-        };
-        img.onerror = function() {
-            alert("Error in uploading");
-        }
-        img.crossOrigin = "";              // if from different origin
-        img.src = url;
-	}
-
-}
 
 dropRegion.addEventListener('drop', handleDrop, false);
 
@@ -100,17 +53,14 @@ function validateImage(image) {
 		return false;
 	}
 
-	// check the size
+	// checking the size
 	let maxSizeInBytes = 10e6; // 10MB
 	if (image.size > maxSizeInBytes) {
 		alert("File too large");
 		return false;
 	}
-
 	return true;
-
 }
-
 
 function previewImage(image) {
 
@@ -133,8 +83,6 @@ function previewImage(image) {
   };
 	reader.readAsDataURL(image);
 }
-
-
 
 const buttonSolo = document.createElement("div");
 buttonSolo.setAttribute("class", "buttonSolo");
@@ -162,7 +110,7 @@ updateButton.addEventListener("click", async() =>{
       let description = document.getElementById("editor").innerHTML;
       let id = null;
  
-  
+	  
       const postData = await fetch("https://character-database.becode.xyz/characters", {
         method: "POST",
         headers: {
@@ -170,11 +118,10 @@ updateButton.addEventListener("click", async() =>{
         },
         body: JSON.stringify({ id, name, shortDescription, description, image }),
       });
+
       window.location.href="index.html"
     });
-  
-  
-
+	
 
 const deleteButton = document.createElement("button");
 deleteButton.setAttribute("id", "deleteButton");
@@ -182,7 +129,7 @@ deleteButton.innerText = "Delete character";
 buttonSolo.appendChild(deleteButton);
 deleteButton.addEventListener("click", () => {
   window.location.href="index.html"
-            });
+});
 
 
 const backButton = document.createElement("button");

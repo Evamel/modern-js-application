@@ -1,9 +1,13 @@
+import { deleteChara } from './fetch.js';
+import { backButton } from './backBtn.js';
+
 const container = document.getElementById("container");
 let idChara = sessionStorage.getItem("idChara")
 let nameChara =sessionStorage.getItem("nameChara")
 let descriptionChara = sessionStorage.getItem("descriptionChara")
 let shortDesChara = sessionStorage.getItem("shortDesChara")
 let imgChara = sessionStorage.getItem("imgChara")
+
 
 async function back() {
     window.location.href="index.html"
@@ -14,28 +18,6 @@ function updateChara() {
     window.location.href = "updatechara.html";
   }
   
-  async function deleteChara() {
-    if (confirm("Are you sure?") == true) {
-      try {
-        let resp = await fetch(
-          "https://character-database.becode.xyz/characters/" + idChara,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (!resp.ok) {
-          throw new Error("ID not found");
-        } else {
-            window.location.href = "index.html"
-        }
-      } catch (err) {
-        alert(err);
-      }
-    }
-  }
 
   const cardSolo = document.createElement("div");
   cardSolo.setAttribute("id", "cardSolo");
@@ -77,6 +59,7 @@ function updateChara() {
   });
   buttonSolo.appendChild(updateButton);
 
+
   const deleteButton = document.createElement("button");
   deleteButton.setAttribute("id", "deleteButton");
   deleteButton.innerText = "Delete character";
@@ -85,9 +68,7 @@ function updateChara() {
   });
   buttonSolo.appendChild(deleteButton);
 
-  const backButton = document.createElement("button");
-  backButton.setAttribute("id", "backButton");
-  backButton.innerText = "<Back";
+  
   backButton.addEventListener("click", () => {
     back();
   });
